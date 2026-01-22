@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Ícones - Cérebro Zinco</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .icon-item { text-align: center; border: 1px solid #ddd; padding: 10px; }
+        .icon-preview { width: 100px; height: 100px; margin: 0 auto; 
+                       background: linear-gradient(135deg, #4361ee, #4cc9f0);
+                       border-radius: 20px; display: flex; align-items: center; 
+                       justify-content: center; color: white; font-size: 40px; }
+        code { background: #f5f5f5; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Ícones Simples para Cérebro Zinco</h1>
+    
+    <div class="icon-grid">
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-72x72.png</code></p>
+            <button onclick="downloadIcon(72)">Baixar 72x72</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-96x96.png</code></p>
+            <button onclick="downloadIcon(96)">Baixar 96x96</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-128x128.png</code></p>
+            <button onclick="downloadIcon(128)">Baixar 128x128</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-144x144.png</code></p>
+            <button onclick="downloadIcon(144)">Baixar 144x144</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-152x152.png</code></p>
+            <button onclick="downloadIcon(152)">Baixar 152x152</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-192x192.png</code></p>
+            <button onclick="downloadIcon(192)">Baixar 192x192</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-256x256.png</code></p>
+            <button onclick="downloadIcon(256)">Baixar 256x256</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-384x384.png</code></p>
+            <button onclick="downloadIcon(384)">Baixar 384x384</button>
+        </div>
+        <div class="icon-item">
+            <div class="icon-preview">Z</div>
+            <p><code>icon-512x512.png</code></p>
+            <button onclick="downloadIcon(512)">Baixar 512x512</button>
+        </div>
+    </div>
+
+    <script>
+        function downloadIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo gradiente
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#4361ee');
+            gradient.addColorStop(1, '#4cc9f0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Borda arredondada
+            ctx.beginPath();
+            const radius = size * 0.15;
+            ctx.roundRect(0, 0, size, size, radius);
+            ctx.clip();
+            
+            // Redesenhar fundo com clipping
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Letra Z (Cérebro Zinco)
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.5}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Z', size/2, size/2);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Adicionar roundRect para navegadores mais antigos
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                if (radius > width/2) radius = width/2;
+                if (radius > height/2) radius = height/2;
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+                return this;
+            };
+        }
+    </script>
+</body>
+</html>
